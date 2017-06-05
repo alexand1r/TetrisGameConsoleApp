@@ -1,0 +1,6 @@
+c:\users\emil\documents\visual studio 2017\Projects\TetrusGroupProject\Tetris\bin\Debug\Tetris.exe.config
+c:\users\emil\documents\visual studio 2017\Projects\TetrusGroupProject\Tetris\bin\Debug\Tetris.exe
+c:\users\emil\documents\visual studio 2017\Projects\TetrusGroupProject\Tetris\bin\Debug\Tetris.pdb
+c:\users\emil\documents\visual studio 2017\Projects\TetrusGroupProject\Tetris\obj\Debug\Tetris.exe
+c:\users\emil\documents\visual studio 2017\Projects\TetrusGroupProject\Tetris\obj\Debug\Tetris.pdb
+c:\users\emil\documents\visual studio 2017\Projects\TetrusGroupProject\Tetris\obj\Debug\Tetris.csprojResolveAssemblyReference.cache
