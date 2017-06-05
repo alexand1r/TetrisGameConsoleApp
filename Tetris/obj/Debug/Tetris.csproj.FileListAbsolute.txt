@@ -4,3 +4,9 @@ c:\users\emil\documents\visual studio 2017\Projects\TetrusGroupProject\Tetris\bi
 c:\users\emil\documents\visual studio 2017\Projects\TetrusGroupProject\Tetris\obj\Debug\Tetris.exe
 c:\users\emil\documents\visual studio 2017\Projects\TetrusGroupProject\Tetris\obj\Debug\Tetris.pdb
 c:\users\emil\documents\visual studio 2017\Projects\TetrusGroupProject\Tetris\obj\Debug\Tetris.csprojResolveAssemblyReference.cache
+C:\Users\Emil\Documents\Visual Studio 2017\Projects\TetrisGameConsoleApp\Tetris\bin\Debug\Tetris.exe.config
+C:\Users\Emil\Documents\Visual Studio 2017\Projects\TetrisGameConsoleApp\Tetris\bin\Debug\Tetris.exe
+C:\Users\Emil\Documents\Visual Studio 2017\Projects\TetrisGameConsoleApp\Tetris\bin\Debug\Tetris.pdb
+C:\Users\Emil\Documents\Visual Studio 2017\Projects\TetrisGameConsoleApp\Tetris\obj\Debug\Tetris.csprojResolveAssemblyReference.cache
+C:\Users\Emil\Documents\Visual Studio 2017\Projects\TetrisGameConsoleApp\Tetris\obj\Debug\Tetris.exe
+C:\Users\Emil\Documents\Visual Studio 2017\Projects\TetrisGameConsoleApp\Tetris\obj\Debug\Tetris.pdb
