@@ -10,6 +10,12 @@ namespace Tetris
 {
     public class Launcher
     {
+        private const string TetrisSign = @" 
+ ______   ______    ______   ______    __    ______
+/\__  _\ /\  ___\  /\__  _\ /\  == \  /\ \  /\  ___\
+\/_/\ \/ \ \  __\  \/_/\ \/ \ \  __<  \ \ \ \ \___  \
+   \ \_\  \ \_____\   \ \_\  \ \_\ \_\ \ \_\ \/\_____\
+    \/_/   \/_____/    \/_/   \/_/ /_/  \/_/  \/_____/";
         public static void Main()
         {
             ConsoleSize();
@@ -43,8 +49,8 @@ namespace Tetris
         {
             Console.WindowHeight = 25;
             Console.BufferHeight = 25;
-            Console.WindowWidth = 40;
-            Console.BufferWidth = 40;
+            Console.WindowWidth = 55;
+            Console.BufferWidth = 55;
         }
 
         private static void MainMenu()
@@ -67,19 +73,11 @@ namespace Tetris
                 Console.ForegroundColor = ConsoleColor.White;
 
                 Console.Clear();
-                Console.SetCursorPosition(0, 1);
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine(new string('-', 40));
-                Console.Write(new string('-', 17));
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write("TETRIS");
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine(new string('-', 17));
-                Console.WriteLine(new string('-', 40));
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.ForegroundColor = ConsoleColor.Green;
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine(TetrisSign);
 
                 int current = 1;
+                Console.CursorTop = 10;
                 foreach (var item in menuItems)
                 {
                     Console.BackgroundColor = ConsoleColor.Black;
@@ -90,9 +88,10 @@ namespace Tetris
                         Console.ForegroundColor = ConsoleColor.Black;
                     }
                     current++;
-                    Console.CursorLeft = 17;
+                    Console.CursorLeft = 25;
                     Console.WriteLine(item);
                 }
+                 
 
                 var key = Console.ReadKey(true);
 
@@ -122,6 +121,7 @@ namespace Tetris
                         }
                         break;
                     case ConsoleKey.Escape:
+                        Environment.Exit(0);
                         return;
                 }
             }
@@ -150,10 +150,11 @@ namespace Tetris
             Console.Clear();
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.SetCursorPosition(Console.WindowWidth / 2 - 9, 1);
-            Console.WriteLine("How to play Tetris");
-            Console.WriteLine(new string('=',40));
-            Console.SetCursorPosition(4, 4);
+
+            Console.SetCursorPosition(Console.WindowWidth / 2 - 7, 0);
+            Console.WriteLine("HOW TO PLAY ");
+            Console.WriteLine(TetrisSign);
+            Console.SetCursorPosition(10, 8);
             Console.WriteLine("Controls:");
 
             string[] controls = new string[4];
@@ -163,10 +164,10 @@ namespace Tetris
             controls[3] = "[Spacebar]       Rotate to 90°";
             foreach (var control in controls)
             {
-                Console.CursorLeft = 4;
+                Console.CursorLeft = 10;
                 Console.WriteLine(control);
             }
-            Console.SetCursorPosition(0, 10);
+            Console.SetCursorPosition(0, 14);
             string instructions = "Tetris is played on a 24 by 22 grid called the Matrix. Shapes called Blocks fall from the top of the Matrix and come to rest at the bottom.Only one Block falls at a time.At first the Tetriminos fall rather slowly; as the game progresses they will fall faster and faster.The primary way to score points in Tetris is to clear lines by manipulating the pieces so that they fill horizontal row within the Matrix.";
             Console.WriteLine(instructions);
             Console.SetCursorPosition(Console.WindowWidth / 2 - 15, 23);
@@ -209,7 +210,20 @@ namespace Tetris
             {
                 Console.Write("\u2550");
             }
-            Console.ReadLine();
+            Console.SetCursorPosition(6, 10);
+            Console.WriteLine("Are you ready?");
+            Console.CursorLeft = 6;
+            Console.Write("(Y/N)?  ");
+            string playerDecision = Console.ReadLine();
+
+            if (playerDecision.ToLower().Equals("y"))
+            {
+                StartGame();
+            }
+            else
+            {
+                MainMenu();
+            }
         }
     }
 }
