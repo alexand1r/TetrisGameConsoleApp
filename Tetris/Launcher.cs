@@ -13,6 +13,29 @@ namespace Tetris
         {
             ConsoleSize();
             MainMenu();
+            DrawBorder();
+            StartGame();
+        }
+
+        private static void StartGame()
+        {
+            var blocks = Blocks.createBlocks();
+            string[][] matrix = new string[22][];
+            for (int row = 0; row < matrix.Length; row++)
+            {
+                matrix[row] = new string[24];
+                for (int col = 0; col < matrix[row].Length; col++)
+                {
+                    matrix[row][col] = ".";
+                }
+            }
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                Console.SetCursorPosition(1, i + 1);
+                Console.WriteLine(string.Join("", matrix[i]));
+            }
+
+            var key = Console.ReadKey();
         }
 
         private static void ConsoleSize()
@@ -126,7 +149,7 @@ namespace Tetris
             Console.Clear();
             Console.SetCursorPosition(0,0);
             Console.Write("\u2554");
-            Console.SetCursorPosition(25,0);
+            Console.SetCursorPosition(25, 0);
             Console.Write("\u2557");
             for (int height = 1; height <= 22; height++)
             {
