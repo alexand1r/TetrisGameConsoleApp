@@ -68,6 +68,7 @@ namespace Tetris
                     StartGame();
                     break;
                 case ConsoleKey.N:
+                    Launcher.MainMenu();
                     break;
             }
         }
