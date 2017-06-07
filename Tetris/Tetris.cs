@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -9,17 +10,22 @@ namespace Tetris
 {
     public class Tetris
     {
-        private static string[][] curPiece;
-        private static string[][] matrix;
-        private static int curX;
-        private static int curY;
-        private static Random rnd = new Random();
-        private static Stack<string[][]> pieces = new Stack<string[][]>();
-        private static bool gameOver;
+        public static string[][] curPiece;
+        public static string[][] matrix;
+        public static int curX;
+        public static int curY;
+        public static Random rnd = new Random();
+        public static Stack<string[][]> pieces = new Stack<string[][]>();
+        public static bool gameOver;
+        public static ConsoleKeyInfo key;
+        public static bool isKeyPressed = false;
+        public static int direction;
 
         public static void StartGame()
         {
+            isKeyPressed = false;
             gameOver = false;
+
             var blocks = Blocks.createBlocks();
             var names = new string[] { "o", "i", "s", "z", "l", "j", "t" };
             matrix = new string[22][];
@@ -52,9 +58,11 @@ namespace Tetris
 
                 while (true)
                 {
+                    direction = 0;
                     Thread.Sleep(200);
+                    InputEvents();
                     // trying to move the piece 1 row down
-                    if (!tryMove(curPiece, curX + 1, curY))
+                    if (!tryMove(curPiece, curX + 1, curY + direction))
                     {
                         if (curX + 1 == 1)
                         {
@@ -81,6 +89,25 @@ namespace Tetris
                 case ConsoleKey.N:
                     Launcher.MainMenu();
                     break;
+            }
+        }
+
+        private static void InputEvents()
+        {
+            if (Console.KeyAvailable)
+            {
+                key = Console.ReadKey();
+                isKeyPressed = true;
+            }
+            else isKeyPressed = false;
+
+            if (Tetris.key.Key == ConsoleKey.LeftArrow & isKeyPressed)
+            {
+                direction = -1;
+            }
+            else if (Tetris.key.Key == ConsoleKey.RightArrow & isKeyPressed)
+            {
+                direction = 1;
             }
         }
 
