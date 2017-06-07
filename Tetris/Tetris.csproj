@@ -45,6 +45,7 @@
     <Compile Include="Blocks.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tetris.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
