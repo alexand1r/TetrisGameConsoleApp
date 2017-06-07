@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Security.Cryptography;
+using System.Threading;
+using System.Timers;
 using System.Media;
 using System.IO;
 
 namespace Tetris
-{
+{ 
     public class Launcher
     {
         private const string TetrisSign = @" 
@@ -20,29 +24,6 @@ namespace Tetris
         {
             ConsoleSize();
             MainMenu();
-            DrawBorder();
-            StartGame();
-        }
-
-        private static void StartGame()
-        {
-            var blocks = Blocks.createBlocks();
-            string[][] matrix = new string[22][];
-            for (int row = 0; row < matrix.Length; row++)
-            {
-                matrix[row] = new string[24];
-                for (int col = 0; col < matrix[row].Length; col++)
-                {
-                    matrix[row][col] = ".";
-                }
-            }
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                Console.SetCursorPosition(1, i + 1);
-                Console.WriteLine(string.Join("", matrix[i]));
-            }
-
-            var key = Console.ReadKey();
         }
 
         private static void ConsoleSize()
@@ -53,7 +34,7 @@ namespace Tetris
             Console.BufferWidth = 55;
         }
 
-        private static void MainMenu()
+        public static void MainMenu()
         {
             SoundPlayer sp = new SoundPlayer();
             sp.SoundLocation = "../../Sounds/mainMenu.wav";
@@ -133,6 +114,7 @@ namespace Tetris
             {
                 sp.Stop();
                 DrawBorder();
+                Tetris.StartGame();
             }
             else if(currentSelection == 2)
             {
@@ -176,7 +158,7 @@ namespace Tetris
             Console.ReadKey();
         }
 
-        private static void DrawBorder()
+        public static void DrawBorder()
         {
             SoundPlayer sp = new SoundPlayer();
             sp.SoundLocation = "../../Sounds/ingameSound.wav";
@@ -218,7 +200,7 @@ namespace Tetris
 
             if (playerDecision.ToLower().Equals("y"))
             {
-                StartGame();
+                Tetris.StartGame();
             }
             else
             {
