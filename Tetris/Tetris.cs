@@ -29,10 +29,18 @@ namespace Tetris
             {
                 if (gameOver) break;
                 var newPiece = PickRandomBlock(blocks, names);
-                curPiece = newPiece;
+                var nextPiece = PickRandomBlock(blocks, names);
+
+                Queue<string[][]> pieces = new Queue<string[][]>();
+                pieces.Enqueue(newPiece);
+                pieces.Enqueue(nextPiece);
+
+                curPiece = pieces.Dequeue();
+                NextBlock(pieces.Dequeue());
+                
                 curX = 0;
                 curY = matrix.GetLength(0) / 2 + 1;
-
+                
                 // setting the new piece on the top middle
                 SettingPieceInMatrix();
 
@@ -41,7 +49,7 @@ namespace Tetris
 
                 while (true)
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(200);
                     // trying to move the piece 1 row down
                     if (!tryMove(curPiece, curX + 1, curY))
                     {
@@ -65,11 +73,40 @@ namespace Tetris
                 case ConsoleKey.Y:
                     Console.Clear();
                     Launcher.DrawBorder();
-                    StartGame();
+                    //StartGame();
                     break;
                 case ConsoleKey.N:
                     Launcher.MainMenu();
                     break;
+            }
+        }
+
+        private static void NextBlock(string[][] nextPiece)
+        {
+            int row = 0;
+            
+            string[][] matrix = new string[4][];
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                matrix[i] = new string[6];
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    matrix[i][j] = string.Empty;
+                }
+            }
+            int clearRow = 0;
+            foreach (var lines in matrix)
+            {
+                Console.SetCursorPosition(32, 11 + clearRow);
+                Console.Write(string.Join(" ", lines));
+                clearRow++;
+            }
+
+            foreach (var line in nextPiece)
+            {
+                Console.SetCursorPosition(34, 11 + row);
+                Console.Write(string.Join("", line));
+                row++;
             }
         }
 
@@ -151,9 +188,9 @@ namespace Tetris
         private static string[][] PickRandomBlock(Dictionary<string, string[][]> blocks, string[] names)
         {
             Random rnd = new Random();
-            int index = rnd.Next(names.Length - 1);
+            int index = rnd.Next(0,7);
             var block = blocks[names[index]];
             return block;
-        }
+        }   
     }
 }

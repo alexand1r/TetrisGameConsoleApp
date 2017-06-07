@@ -20,6 +20,12 @@ namespace Tetris
 \/_/\ \/ \ \  __\  \/_/\ \/ \ \  __<  \ \ \ \ \___  \
    \ \_\  \ \_____\   \ \_\  \ \_\ \_\ \ \_\ \/\_____\
     \/_/   \/_____/    \/_/   \/_/ /_/  \/_/  \/_____/";
+        private const string VerticalLine = "\u2551";
+        private const string HorizontalLine = "\u2550";
+        private const string TopLeftCorner = "\u2554";
+        private const string TopRightCorner = "\u2557";
+        private const string BottomLeftCorner = "\u255A";
+        private const string BottomRightCorner = "\u255D";
         public static void Main()
         {
             ConsoleSize();
@@ -114,7 +120,7 @@ namespace Tetris
             {
                 sp.Stop();
                 DrawBorder();
-                Tetris.StartGame();
+                //Tetris.StartGame();
             }
             else if(currentSelection == 2)
             {
@@ -166,32 +172,68 @@ namespace Tetris
 
             Console.CursorVisible = false;
             Console.Clear();
-            Console.SetCursorPosition(0, 0);
-            Console.Write("\u2554");
-            Console.SetCursorPosition(25, 0);
-            Console.Write("\u2557");
+            
+            //Main field vertical lines
             for (int height = 1; height <= 22; height++)
             {
                 Console.SetCursorPosition(0, height);
-                Console.Write("\u2551");
+                Console.Write(VerticalLine);
                 Console.SetCursorPosition(25, height);
-                Console.Write("\u2551");
+                Console.Write(VerticalLine);
             }
+            //Main field corners
+            Console.SetCursorPosition(0, 0);
+            Console.Write(TopLeftCorner);
+            Console.SetCursorPosition(25, 0);
+            Console.Write(TopRightCorner);
             Console.SetCursorPosition(0, 23);
-            Console.Write("\u255A");
+            Console.Write(BottomLeftCorner);
             Console.SetCursorPosition(25, 23);
-            Console.Write("\u255D");
+            Console.Write(BottomRightCorner);
 
+            //Main field horizontal lines
             Console.SetCursorPosition(1, 0);
             for (int width = 0; width <= 23; width++)
             {
-                Console.Write("\u2550");
+                Console.Write(HorizontalLine);
             }
             Console.SetCursorPosition(1, 23);
             for (int width = 0; width <= 23; width++)
             {
-                Console.Write("\u2550");
+                Console.Write(HorizontalLine);
             }
+            
+            //Next block vertical lines
+            Console.SetCursorPosition(30,9);
+            for (int height = 0; height < 6; height++)
+            {
+                Console.SetCursorPosition(30, 9 + height);
+                Console.Write(VerticalLine);
+                Console.SetCursorPosition(39, 9 + height);
+                Console.Write(VerticalLine);
+            }
+
+            //Next block corners + horizontal lines
+            Console.SetCursorPosition(30, 9);
+            Console.Write(TopLeftCorner);
+            for (int width = 0; width < 8; width++)
+            {
+                Console.Write(HorizontalLine);
+            }
+            Console.Write(TopRightCorner);
+            Console.SetCursorPosition(30, 15);
+            Console.Write(BottomLeftCorner);
+            for (int width = 0; width < 8; width++)
+            {
+                Console.Write(HorizontalLine);
+            }
+            Console.Write(BottomRightCorner);
+            
+            //Next Block text
+            Console.SetCursorPosition(33, 10);
+            Console.Write("NEXT");
+
+            //Are you ready text
             Console.SetCursorPosition(6, 10);
             Console.WriteLine("Are you ready?");
             Console.CursorLeft = 6;
