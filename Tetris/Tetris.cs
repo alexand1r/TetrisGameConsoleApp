@@ -13,6 +13,8 @@ namespace Tetris
         private static string[][] matrix;
         private static int curX;
         private static int curY;
+        private static Random rnd = new Random();
+        private static Stack<string[][]> pieces = new Stack<string[][]>();
         private static bool gameOver;
 
         public static void StartGame()
@@ -28,16 +30,17 @@ namespace Tetris
             while (true)
             {
                 if (gameOver) break;
-                var newPiece = PickRandomBlock(blocks, names);
-                var nextPiece = PickRandomBlock(blocks, names);
-
-                Queue<string[][]> pieces = new Queue<string[][]>();
-                pieces.Enqueue(newPiece);
-                pieces.Enqueue(nextPiece);
-
-                curPiece = pieces.Dequeue();
-                NextBlock(pieces.Dequeue());
                 
+                string[][] newPiece;
+                if (pieces.Count == 0)
+                    newPiece = PickRandomBlock(blocks, names);
+                else
+                    newPiece = pieces.Pop();
+
+                pieces.Push(PickRandomBlock(blocks, names));
+                NextBlock(pieces.Peek());
+
+                curPiece = newPiece;
                 curX = 0;
                 curY = matrix.GetLength(0) / 2 + 1;
                 
@@ -55,8 +58,8 @@ namespace Tetris
                     {
                         if (curX + 1 == 1)
                         {
-                            Console.SetCursorPosition(0, 24);
-                            Console.WriteLine("Game Over");
+                            Console.SetCursorPosition(1, 24);
+                            Console.Write("Game Over");
                             gameOver = true;
                         }
                         break;
@@ -66,7 +69,7 @@ namespace Tetris
                     PrintMatrix();
                 }
             }
-            Console.WriteLine("Restart: Y/N");
+            Console.WriteLine("   Restart: Y/N");
             var key = Console.ReadKey(true);
             switch (key.Key)
             {
@@ -187,7 +190,6 @@ namespace Tetris
 
         private static string[][] PickRandomBlock(Dictionary<string, string[][]> blocks, string[] names)
         {
-            Random rnd = new Random();
             int index = rnd.Next(0,7);
             var block = blocks[names[index]];
             return block;
