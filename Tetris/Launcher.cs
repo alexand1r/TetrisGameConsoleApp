@@ -45,13 +45,15 @@ namespace Tetris
             SoundPlayer sp = new SoundPlayer();
             sp.SoundLocation = "../../Sounds/mainMenu.wav";
             sp.PlayLooping();
-            string[] menuItems = new string[3]
+            string[] menuItems = new string[5]
             {
                 "PLAY",
+                "HIGHSCORES",
                 "HELP",
+                "CREDITS",
                 "EXIT"
             };
-            int pageSize = 3;
+            int pageSize = 5;
             int pointer = 1;
             while (true)
             {
@@ -75,7 +77,7 @@ namespace Tetris
                         Console.ForegroundColor = ConsoleColor.Black;
                     }
                     current++;
-                    Console.CursorLeft = 25;
+                    Console.CursorLeft = 10;
                     Console.WriteLine(item);
                 }
                  
@@ -94,7 +96,7 @@ namespace Tetris
                         }
                         else if (pointer <= 1)
                         {
-                            pointer = 3;
+                            pointer = 5;
                         }
                         break;
                     case ConsoleKey.DownArrow:
@@ -120,17 +122,95 @@ namespace Tetris
             {
                 sp.Stop();
                 DrawBorder();
-                //Tetris.StartGame();
             }
-            else if(currentSelection == 2)
+            else if (currentSelection == 2)
+            {
+                DrawHighScores();
+            }
+            else if (currentSelection == 3)
             {
                 DrawHelp();
             }
-            else if (currentSelection == 3)
+            else if (currentSelection == 4)
+            {
+                DrawCredits();
+            }
+            else if (currentSelection == 5)
             {
                 sp.Stop();
                 Environment.Exit(0);
             }
+        }
+
+        private static void DrawCredits()
+        {
+            Console.Clear();
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(TetrisSign);
+
+            string[] about = new string[]
+            {
+                "SoftUni Team Project",
+                "Console Tetris v0.01",
+                "",
+                "People worked on the project:",
+                "",
+                "Aleksandar Angelov",
+                "Martin Todorov",
+                "Emil Mihaylov"
+            };
+            Console.CursorTop = 9;
+            foreach (var item in about)
+            {
+                Console.CursorLeft = (Console.WindowHeight / 2);
+                Console.WriteLine(item);
+            }
+            
+
+            Console.SetCursorPosition(Console.WindowWidth / 2 - 15, 23);
+            Console.WriteLine("Press any key to get back...");
+            Console.ReadKey();
+        }
+
+        private static void DrawHighScores()
+        {
+            Console.Clear();
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            var highscores = new Dictionary<int, string>();
+            highscores = FillHighScores();
+            Console.WriteLine(TetrisSign);
+            string scores = "HIGH SCORES";
+            Console.SetCursorPosition(Console.WindowWidth / 2 - scores.Length / 2, 9);
+            Console.Write(scores);
+            int counter = 1;
+            Console.CursorTop = 11;
+            foreach (var score in highscores)
+            {
+                Console.CursorLeft = 14;
+                Console.WriteLine(string.Format($"{counter}.\t{score.Key}\t{score.Value}"));
+                counter++;
+            }
+            Console.SetCursorPosition(Console.WindowWidth / 2 - 15, 23);
+
+            Console.WriteLine("Press any key to get back...");
+            Console.ReadKey();
+        }
+
+        private static Dictionary<int, string> FillHighScores()
+        {
+            var highscores = new Dictionary<int, string>();
+            highscores.Add(233412, "Pesho");
+            highscores.Add(98986, "Gosho");
+            highscores.Add(34943, "Ivan");
+            highscores.Add(9876, "Trendafil");
+            highscores.Add(8497, "Tetra");
+            highscores.Add(8376, "Annonymous");
+            highscores.Add(5445, "Nomer1");
+            highscores.Add(5356, "gosheto");
+
+            return highscores;
         }
 
         private static void DrawHelp()
@@ -204,24 +284,23 @@ namespace Tetris
             }
             
             //Next block vertical lines
-            Console.SetCursorPosition(30,9);
             for (int height = 0; height < 6; height++)
             {
-                Console.SetCursorPosition(30, 9 + height);
+                Console.SetCursorPosition(36, 9 + height);
                 Console.Write(VerticalLine);
-                Console.SetCursorPosition(39, 9 + height);
+                Console.SetCursorPosition(45, 9 + height);
                 Console.Write(VerticalLine);
             }
 
             //Next block corners + horizontal lines
-            Console.SetCursorPosition(30, 9);
+            Console.SetCursorPosition(36, 9);
             Console.Write(TopLeftCorner);
             for (int width = 0; width < 8; width++)
             {
                 Console.Write(HorizontalLine);
             }
             Console.Write(TopRightCorner);
-            Console.SetCursorPosition(30, 15);
+            Console.SetCursorPosition(36, 15);
             Console.Write(BottomLeftCorner);
             for (int width = 0; width < 8; width++)
             {
@@ -230,8 +309,95 @@ namespace Tetris
             Console.Write(BottomRightCorner);
             
             //Next Block text
-            Console.SetCursorPosition(33, 10);
+            Console.SetCursorPosition(39, 10);
             Console.Write("NEXT");
+
+            //Score field corners + horizontal lines
+            Console.SetCursorPosition(33, 0);
+            Console.Write(TopLeftCorner);
+            for (int width = 0; width < 14; width++)
+            {
+                Console.Write(HorizontalLine);
+            }
+            Console.Write(TopRightCorner);
+            Console.SetCursorPosition(33, 3);
+            Console.Write(BottomLeftCorner);
+            for (int width = 0; width < 14; width++)
+            {
+                Console.Write(HorizontalLine);
+            }
+            Console.Write(BottomRightCorner);
+
+            //Score field vertical lines
+            Console.SetCursorPosition(30, 1);
+            for (int heitgh = 0; heitgh < 2; heitgh++)
+            {
+                Console.SetCursorPosition(33, 1 + heitgh);
+                Console.Write(VerticalLine);
+                Console.SetCursorPosition(48, 1 + heitgh);
+                Console.Write(VerticalLine);
+            }
+            //Score field text
+            Console.SetCursorPosition(38, 1);
+            Console.Write("SCORES");
+
+            //Level field corners + horizontal lines
+            Console.SetCursorPosition(30, 4);
+            Console.Write(TopLeftCorner);
+            for (int width = 0; width < 7; width++)
+            {
+                Console.Write(HorizontalLine);
+            }
+            Console.Write(TopRightCorner);
+
+            Console.SetCursorPosition(30, 8);
+            Console.Write(BottomLeftCorner);
+            for (int i = 0; i < 7; i++)
+            {
+                Console.Write(HorizontalLine);
+            }
+            Console.Write(BottomRightCorner);
+
+            //Level field vertical lines
+            for (int height = 0; height < 3; height++)
+            {
+                Console.SetCursorPosition(30, 5 + height);
+                Console.Write(VerticalLine);
+                Console.SetCursorPosition(38, 5 + height);
+                Console.Write(VerticalLine);
+            }
+            //Level field text
+            Console.SetCursorPosition(32, 5);
+            Console.Write("LEVEL");
+
+            //Lines field corners + horizontal lines
+            Console.SetCursorPosition(43, 4);
+            Console.Write(TopLeftCorner);
+            for (int width = 0; width < 7; width++)
+            {
+                Console.Write(HorizontalLine);
+            }
+            Console.Write(TopRightCorner);
+
+            Console.SetCursorPosition(43, 8);
+            Console.Write(BottomLeftCorner);
+            for (int i = 0; i < 7; i++)
+            {
+                Console.Write(HorizontalLine);
+            }
+            Console.Write(BottomRightCorner);
+
+            //Lines field vertical lines
+            for (int height = 0; height < 3; height++)
+            {
+                Console.SetCursorPosition(43, 5 + height);
+                Console.Write(VerticalLine);
+                Console.SetCursorPosition(51, 5 + height);
+                Console.Write(VerticalLine);
+            }
+            //Lines field text
+            Console.SetCursorPosition(45, 5);
+            Console.Write("LINES");
 
             //Are you ready text
             Console.SetCursorPosition(6, 10);

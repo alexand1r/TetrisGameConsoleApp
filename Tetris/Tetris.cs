@@ -127,14 +127,14 @@ namespace Tetris
             int clearRow = 0;
             foreach (var lines in matrix)
             {
-                Console.SetCursorPosition(32, 11 + clearRow);
+                Console.SetCursorPosition(38, 11 + clearRow);
                 Console.Write(string.Join(" ", lines));
                 clearRow++;
             }
 
             foreach (var line in nextPiece)
             {
-                Console.SetCursorPosition(34, 11 + row);
+                Console.SetCursorPosition(40, 11 + row);
                 Console.Write(string.Join("", line));
                 row++;
             }
