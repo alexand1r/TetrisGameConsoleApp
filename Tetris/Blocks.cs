@@ -8,73 +8,53 @@ namespace Tetris
 {
     public static class Blocks
     {
-        private static string block = "■";
-        public static string[][] CreateBlocks()
+        public static List<bool[,]> createBlocks()
         {
-            List<string[][]> blocks = new List<string[][]>();
+            List<bool[,]> blocks = new List<bool[,]>();
 
-
-            //O piece
-            blocks.Add(new[]
+            blocks.Add(new bool[,] // ----
             {
-                new [] { block, block },
-                new [] { block, block }
+                {true, true, true, true}
+            });
+            blocks.Add(new bool[,] // I
+            {
+                {true},
+                {true},
+                {true},
+                {true}
+            });
+            blocks.Add(new bool[,] // J
+            {
+                {true, true, true},
+                {false, false, true}
+            });
+            blocks.Add(new bool[,] // L
+            {
+                {true, true, true},
+                {true, false, false}
+            });
+            blocks.Add(new bool[,] // O
+            {
+                {true, true},
+                {true, true}
+            });
+            blocks.Add(new bool[,] // S
+            {
+                {false, true, true},
+                {true, true, false}
+            });
+            blocks.Add(new bool[,] // T
+            {
+                {true, true, true},
+                {false, true, false}
+            });
+            blocks.Add(new bool[,] // Z
+            {
+                {true, true, false},
+                {false, true, true}
             });
 
-            //I Piece
-            blocks.Add(new[]
-            {
-                new [] { block },
-                new [] { block },
-                new [] { block },
-                new [] { block }
-            });
-
-
-            //S Piece
-            blocks.Add(new[]
-            {
-                new [] { "", block, block },
-                new [] { block, block, "" }
-            });
-
-
-            //Z Piece
-
-            blocks.Add(new[]
-            {
-                 new [] { block, block, "" },
-                 new [] { "", block, block }
-            });
-
-            //L Piece
-            blocks.Add(new[]
-            {
-                new [] { block, "" },
-                new [] { block, "" },
-                new [] { block, block }
-            });
-
-            //J Piece
-            blocks.Add(new[]
-            {
-                new [] { "", block },
-                new [] { "", block },
-                new [] { block, block }
-            });
-
-            //T Piece
-            blocks.Add(new[]
-            {
-                new [] { block, block, block },
-                new [] { "", block, "" }
-            });
-
-            var random = new Random();
-
-            var pieceIndex = random.Next(0, blocks.Count);
-
-            return blocks[pieceIndex];
+            return blocks;
         }
     }
 }
