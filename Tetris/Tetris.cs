@@ -10,12 +10,13 @@ namespace Tetris
 {
     public class Tetris
     {
-        public static string[][] curPiece;
-        public static string[][] matrix;
+        public static bool[,] curPiece;
+        public static bool[,] matrix;
         public static int curX;
         public static int curY;
         public static Random rnd = new Random();
-        public static Stack<string[][]> pieces = new Stack<string[][]>();
+        public static string block = "■";
+        public static Stack<bool[,]> pieces = new Stack<bool[,]>();
         public static bool gameOver;
         public static ConsoleKeyInfo key;
         public static bool isKeyPressed = false;
@@ -27,8 +28,7 @@ namespace Tetris
             gameOver = false;
 
             var blocks = Blocks.createBlocks();
-            var names = new string[] { "o", "i", "s", "z", "l", "j", "t" };
-            matrix = new string[22][];
+            matrix = new bool[22, 24];
 
             // filling matrix
             FillMatrix();
@@ -37,18 +37,16 @@ namespace Tetris
             {
                 if (gameOver) break;
                 
-                string[][] newPiece;
-                if (pieces.Count == 0)
-                    newPiece = PickRandomBlock(blocks, names);
-                else
-                    newPiece = pieces.Pop();
+                bool[,] newPiece;
+                newPiece = pieces.Count == 0 
+                    ? PickRandomBlock(blocks) : pieces.Pop();
 
-                pieces.Push(PickRandomBlock(blocks, names));
+                pieces.Push(PickRandomBlock(blocks));
                 NextBlock(pieces.Peek());
 
                 curPiece = newPiece;
                 curX = 0;
-                curY = matrix.GetLength(0) / 2 + 1;
+                curY = matrix.GetLength(1) / 2;
                 
                 // setting the new piece on the top middle
                 SettingPieceInMatrix();
@@ -59,7 +57,6 @@ namespace Tetris
                 while (true)
                 {
                     direction = 0;
-                    Thread.Sleep(200);
                     InputEvents();
                     // trying to move the piece 1 row down
                     if (!tryMove(curPiece, curX + 1, curY + direction))
@@ -75,11 +72,12 @@ namespace Tetris
 
                     // printing matrix
                     PrintMatrix();
+                    Thread.Sleep(150);
                 }
             }
             Console.WriteLine("   Restart: Y/N");
-            var key = Console.ReadKey(true);
-            switch (key.Key)
+            var restartKey = Console.ReadKey(true);
+            switch (restartKey.Key)
             {
                 case ConsoleKey.Y:
                     Console.Clear();
@@ -111,77 +109,80 @@ namespace Tetris
             }
         }
 
-        private static void NextBlock(string[][] nextPiece)
+        private static void NextBlock(bool[,] nextPiece)
         {
-            int row = 0;
-            
-            string[][] matrix = new string[4][];
-            for (int i = 0; i < matrix.Length; i++)
+            bool[,] matrixNext = new bool[4, 6];
+            for (int row = 0; row < matrixNext.GetLength(0); row++)
             {
-                matrix[i] = new string[6];
-                for (int j = 0; j < matrix[i].Length; j++)
+                for (int col = 0; col < matrixNext.GetLength(1); col++)
                 {
-                    matrix[i][j] = string.Empty;
+                    matrixNext[row, col] = false;
                 }
             }
-            int clearRow = 0;
-            foreach (var lines in matrix)
+
+            for (int row = 0; row < nextPiece.GetLength(0); row++)
             {
-                Console.SetCursorPosition(38, 11 + clearRow);
-                Console.Write(string.Join(" ", lines));
-                clearRow++;
+                for (int col = 0; col < nextPiece.GetLength(1); col++)
+                {
+                    matrixNext[row, 2 + col] = nextPiece[row, col];
+                }
             }
 
-            foreach (var line in nextPiece)
+            for (int row = 0; row < matrixNext.GetLength(0); row++)
             {
-                Console.SetCursorPosition(40, 11 + row);
-                Console.Write(string.Join("", line));
-                row++;
+                for (int col = 0; col < matrixNext.GetLength(1); col++)
+                {
+                    Console.SetCursorPosition(col + 38, row + 11);
+                    Console.Write(matrixNext[row, col] ? block : " ");
+                }
             }
         }
 
         private static void SettingPieceInMatrix()
         {
-            for (int row = 0; row < curPiece.Length; row++)
+            for (int row = 0; row < curPiece.GetLength(0); row++)
             {
-                for (int col = 0; col < curPiece[row].Length; col++)
+                for (int col = 0; col < curPiece.GetLength(1); col++)
                 {
-                    matrix[curX + row][curY + col] = curPiece[row][col];
+                    if (curPiece[row, col])
+                        matrix[curX + row, curY + col] = curPiece[row, col];
                 }
             }
         }
 
         private static void FillMatrix()
         {
-            for (int row = 0; row < matrix.Length; row++)
+            for (int row = 0; row < matrix.GetLength(0); row++)
             {
-                matrix[row] = new string[24];
-                for (int col = 0; col < matrix[row].Length; col++)
+                for (int col = 0; col < matrix.GetLength(1); col++)
                 {
-                    matrix[row][col] = " ";
+                    matrix[row, col] = false;
                 }
             }
         }
 
         private static void PrintMatrix()
         {
-            for (int i = 0; i < matrix.Length; i++)
+            for (int row = 0; row < matrix.GetLength(0); row++)
             {
-                Console.SetCursorPosition(1, i + 1);
-                Console.WriteLine(string.Join("", matrix[i]));
+                for (int col = 0; col < matrix.GetLength(1); col++)
+                {
+                    Console.SetCursorPosition(col + 1, row + 1);
+                    Console.Write(matrix[row, col] ? block : " ");
+                }
             }
         }
 
-        private static bool tryMove(string[][] piece, int newX, int newY)
+        private static bool tryMove(bool[,] piece, int newX, int newY)
         {
             if (!Collision(piece, newX, newY)) return false;
 
             // deleting previous position
-            for (int row = 0; row < piece.Length; row++)
+            for (int row = 0; row < piece.GetLength(0); row++)
             {
-                for (int col = 0; col < piece[row].Length; col++)
+                for (int col = 0; col < piece.GetLength(1); col++)
                 {
-                    matrix[curX + row][curY + col] = " ";
+                    matrix[curX + row, curY + col] = false;
                 }
             }
 
@@ -194,32 +195,40 @@ namespace Tetris
             return true;
         }
 
-        private static bool Collision(string[][] piece, int newX, int newY)
+        private static bool Collision(bool[,] piece, int newX, int newY)
         {
             // check if end of frame
             if (newX + piece.GetLength(0) > matrix.GetLength(0))
-            {
                 return false;
-            }
 
-            // collision - needs fixing
-            for (int row = 0; row < piece.Length; row++)
+            //collision - needs fixing
+            for (int row = 0; row < piece.GetLength(0); row++)
             {
-                for (int col = 0; col < piece[row].Length; col++)
+                for (int col = 0; col < piece.GetLength(1); col++)
                 {
-                    if (matrix[newX + piece.Length - 1][newY + col] != " ")
+                    if (row < piece.GetLength(0) - 1
+                        && direction == 0
+                        && !piece[row + 1, col]
+                        && matrix[newX + row, newY + col])
                         return false;
                 }
+            }
+
+            for (int col = 0; col < piece.GetLength(1); col++)
+            {
+                if (piece[piece.GetLength(0) - 1, col]
+                    && matrix[newX + piece.GetLength(0) - 1, newY + col])
+                    return false;
             }
 
             return true;
         }
 
-        private static string[][] PickRandomBlock(Dictionary<string, string[][]> blocks, string[] names)
+        private static bool[,] PickRandomBlock(List<bool[,]> blocks)
         {
-            int index = rnd.Next(0,7);
-            var block = blocks[names[index]];
+            int index = rnd.Next(0, blocks.Count);
+            var block = blocks[index];
             return block;
-        }   
+        }
     }
 }
