@@ -12,26 +12,28 @@ namespace Tetris
         {
             List<bool[,]> blocks = new List<bool[,]>();
 
-            blocks.Add(new bool[,] // ----
-            {
-                {true, true, true, true}
-            });
+            //blocks.Add(new bool[,] // ----
+            //{
+            //    {true, true, true, true}
+            //});
             blocks.Add(new bool[,] // I
             {
-                {true},
-                {true},
-                {true},
-                {true}
+                {true, false, false, false},
+                {true, false, false, false},
+                {true, false, false, false},
+                {true, false, false, false}
             });
             blocks.Add(new bool[,] // J
             {
                 {true, true, true},
-                {false, false, true}
+                {false, false, true},
+                { false, false, false}
             });
             blocks.Add(new bool[,] // L
             {
                 {true, true, true},
-                {true, false, false}
+                {true, false, false},
+                {false, false, false}
             });
             blocks.Add(new bool[,] // O
             {
@@ -41,17 +43,20 @@ namespace Tetris
             blocks.Add(new bool[,] // S
             {
                 {false, true, true},
-                {true, true, false}
+                {true, true, false},
+                { false, false, false}
             });
             blocks.Add(new bool[,] // T
             {
                 {true, true, true},
-                {false, true, false}
+                {false, true, false},
+                {false, false, false }
             });
             blocks.Add(new bool[,] // Z
             {
                 {true, true, false},
-                {false, true, true}
+                {false, true, true},
+                {false, false, false}
             });
 
             return blocks;

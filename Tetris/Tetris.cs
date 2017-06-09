@@ -224,6 +224,23 @@ namespace Tetris
             return true;
         }
 
+        private static bool[,] Rotate(bool[,] piece, bool left)
+        {
+            int dim = piece.GetLength(0);
+            bool[,] rPiece= new bool[dim, dim];
+
+            for (int i = 0; i < dim; i++)
+                for (int j = 0; j < dim; j++)
+                {
+                    if (left)
+                        rPiece[j, i] = piece[i, dim - 1 - j];
+                    else
+                        rPiece[j, i] = piece[dim - 1 - i, j];
+                }
+
+            return rPiece;
+        }
+
         private static bool[,] PickRandomBlock(List<bool[,]> blocks)
         {
             int index = rnd.Next(0, blocks.Count);
