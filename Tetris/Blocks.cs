@@ -18,22 +18,20 @@ namespace Tetris
             //});
             blocks.Add(new bool[,] // I
             {
-                {true, false, false, false},
-                {true, false, false, false},
-                {true, false, false, false},
-                {true, false, false, false}
+                {true},
+                {true},
+                {true},
+                {true}
             });
             blocks.Add(new bool[,] // J
             {
                 {true, true, true},
-                {false, false, true},
-                { false, false, false}
+                {false, false, true}
             });
             blocks.Add(new bool[,] // L
             {
                 {true, true, true},
-                {true, false, false},
-                {false, false, false}
+                {true, false, false}
             });
             blocks.Add(new bool[,] // O
             {
@@ -43,20 +41,17 @@ namespace Tetris
             blocks.Add(new bool[,] // S
             {
                 {false, true, true},
-                {true, true, false},
-                { false, false, false}
+                {true, true, false}
             });
             blocks.Add(new bool[,] // T
             {
                 {true, true, true},
-                {false, true, false},
-                {false, false, false }
+                {false, true, false}
             });
             blocks.Add(new bool[,] // Z
             {
                 {true, true, false},
-                {false, true, true},
-                {false, false, false}
+                {false, true, true}
             });
 
             return blocks;
