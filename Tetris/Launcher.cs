@@ -158,7 +158,10 @@ namespace Tetris
                 "",
                 "Aleksandar Angelov",
                 "Martin Todorov",
-                "Emil Mihaylov"
+                "Emil Mihaylov",
+                "Vladislav Mitrov",
+                "Nikolay Bonev"
+
             };
             Console.CursorTop = 9;
             foreach (var item in about)
@@ -218,18 +221,17 @@ namespace Tetris
             Console.Clear();
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Yellow;
-
-            Console.SetCursorPosition(Console.WindowWidth / 2 - 7, 0);
-            Console.WriteLine("HOW TO PLAY ");
+            
             Console.WriteLine(TetrisSign);
-            Console.SetCursorPosition(10, 8);
+            Console.SetCursorPosition(10, 7);
             Console.WriteLine("Controls:");
 
-            string[] controls = new string[4];
+            string[] controls = new string[5];
             controls[0] = "[Left Arrow]     Slide Left";
             controls[1] = "[Right Arrow]    Slide Right";
             controls[2] = "[Down Arrow]     Fall block faster";
-            controls[3] = "[Spacebar]       Rotate to 90°";
+            controls[3] = "[Z]              Rotate left";
+            controls[4] = "[X]              Rotate right";
             foreach (var control in controls)
             {
                 Console.CursorLeft = 10;
@@ -258,27 +260,27 @@ namespace Tetris
             {
                 Console.SetCursorPosition(0, height);
                 Console.Write(VerticalLine);
-                Console.SetCursorPosition(25, height);
+                Console.SetCursorPosition(11, height);
                 Console.Write(VerticalLine);
             }
             //Main field corners
             Console.SetCursorPosition(0, 0);
             Console.Write(TopLeftCorner);
-            Console.SetCursorPosition(25, 0);
+            Console.SetCursorPosition(11, 0);
             Console.Write(TopRightCorner);
             Console.SetCursorPosition(0, 23);
             Console.Write(BottomLeftCorner);
-            Console.SetCursorPosition(25, 23);
+            Console.SetCursorPosition(11, 23);
             Console.Write(BottomRightCorner);
 
             //Main field horizontal lines
             Console.SetCursorPosition(1, 0);
-            for (int width = 0; width <= 23; width++)
+            for (int width = 0; width <= 9; width++)
             {
                 Console.Write(HorizontalLine);
             }
             Console.SetCursorPosition(1, 23);
-            for (int width = 0; width <= 23; width++)
+            for (int width = 0; width <= 9; width++)
             {
                 Console.Write(HorizontalLine);
             }
@@ -400,10 +402,10 @@ namespace Tetris
             Console.Write("LINES");
 
             //Are you ready text
-            Console.SetCursorPosition(6, 10);
-            Console.WriteLine("Are you ready?");
-            Console.CursorLeft = 6;
-            Console.Write("(Y/N)?  ");
+            Console.SetCursorPosition(3, 10);
+            Console.WriteLine("Ready?");
+            Console.CursorLeft = 3;
+            Console.Write("(Y/N)? ");
             string playerDecision = Console.ReadLine();
 
             if (playerDecision.ToLower().Equals("y"))

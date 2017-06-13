@@ -21,13 +21,16 @@ namespace Tetris
         public static ConsoleKeyInfo key;
         public static bool isKeyPressed = false;
 
+
+        public static int LineCleared = 0;
+
         public static void StartGame()
         {
             isKeyPressed = false;
             gameOver = false;
 
             var blocks = Blocks.createBlocks();
-            matrix = new bool[22, 24];
+            matrix = new bool[22, 10];
 
             // filling matrix
             HelperFunctions.FillMatrix(matrix);
@@ -78,11 +81,36 @@ namespace Tetris
 
                     // printing matrix
                     HelperFunctions.PrintMatrix(matrix, 1, 1);
-                    Thread.Sleep(150);
+                    Thread.Sleep(250);
+                }
+                ClearLines();
+            }
+            HelperFunctions.AskForRestart();
+        }
+
+        private static void ClearLines()
+        {
+            for (int row = matrix.GetLength(0) - 1; row > 0; row--)
+            {
+                int counter = 0;
+                for (int col = 0; col < matrix.GetLength(1); col++)
+                {
+                    if (matrix[row, col] == true)
+                    {
+                        counter++;
+                    }
+                    if (counter == 10)
+                    {
+                        LineCleared++;
+                        for (int i = 0; i < 10; i++)
+                        {
+                            matrix[row, i] = false;
+                        }
+                        Console.SetCursorPosition(47, 6);
+                        Console.Write(LineCleared);
+                    }
                 }
             }
-
-            HelperFunctions.AskForRestart();
         }
     }
 }
