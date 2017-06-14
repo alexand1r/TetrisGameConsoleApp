@@ -49,6 +49,11 @@ namespace Tetris
                     bool[,] tempPiece = HelperFunctions.RotateMatrixClockwise(Tetris.curPiece);
                     RotateIfPossible(tempPiece);
                 }
+                // fall down
+                else if(Tetris.key.Key == ConsoleKey.DownArrow)
+                {
+                    Tetris.Speed = 20;
+                }
             }
             Tetris.isKeyPressed = false;
         }
