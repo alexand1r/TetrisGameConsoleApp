@@ -50,7 +50,6 @@ namespace Tetris
                     RotateIfPossible(tempPiece);
                 }
             }
-
             Tetris.isKeyPressed = false;
         }
 

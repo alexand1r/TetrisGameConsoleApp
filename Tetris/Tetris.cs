@@ -42,7 +42,8 @@ namespace Tetris
             while (true)
             {
                 if (gameOver) break;
-
+                //printing score/level/lines
+                PrintStats();
                 // picking new piece and next piece
                 bool[,] newPiece;
                 newPiece = pieces.Count == 0
@@ -86,11 +87,22 @@ namespace Tetris
 
                     // printing matrix
                     HelperFunctions.PrintMatrix(matrix, 1, 1);
-                    Thread.Sleep(250);
+                    Thread.Sleep(Speed);
                 }
                 ClearLines();
+                SetLevelScoreAndSpeed();
             }
             HelperFunctions.AskForRestart();
+        }
+
+        private static void PrintStats()
+        {
+            Console.SetCursorPosition(39, 2);
+            Console.Write(Score);
+            Console.SetCursorPosition(34, 6);
+            Console.Write(Level);
+            Console.SetCursorPosition(47, 6);
+            Console.Write(LineCleared);
         }
 
         public static void ClearLines()
@@ -112,12 +124,9 @@ namespace Tetris
                         {
                             matrix[row, i] = false;
                         }
-                        Console.SetCursorPosition(47, 6);
-                        Console.Write(LineCleared);
-
                         // fall down
                         FallDown(row);
-
+                        // combo scores
                         Combo++;
                         // check for another empty full row is created (recursion)
                         ClearLines();
@@ -126,8 +135,9 @@ namespace Tetris
             }
         }
 
+        public static void SetLevelScoreAndSpeed()
         {
-            if (LineCleared < 5) Level = 1;
+            if (LineCleared < 5) { Level = 1; Speed = 250; }
             else if (LineCleared < 10) { Level = 2; Speed = 230; }
             else if (LineCleared < 15) { Level = 3; Speed = 210; }
             else if (LineCleared < 25) { Level = 4; Speed = 190; }
