@@ -24,7 +24,10 @@ namespace Tetris
         public static bool isKeyPressed = false;
 
         public static int LineCleared = 0;
-
+        public static int Score = 0;
+        public static int Level = 1;
+        public static int Combo = 0;
+        public static int Speed = 250;
         public static void StartGame()
         {
             isKeyPressed = false;
@@ -115,12 +118,32 @@ namespace Tetris
                         // fall down
                         FallDown(row);
 
+                        Combo++;
                         // check for another empty full row is created (recursion)
                         ClearLines();
                     }
                 }
             }
         }
+
+        {
+            if (LineCleared < 5) Level = 1;
+            else if (LineCleared < 10) { Level = 2; Speed = 230; }
+            else if (LineCleared < 15) { Level = 3; Speed = 210; }
+            else if (LineCleared < 25) { Level = 4; Speed = 190; }
+            else if (LineCleared < 35) { Level = 5; Speed = 170; }
+            else if (LineCleared < 50) { Level = 6; Speed = 150; }
+            else if (LineCleared < 70) { Level = 7; Speed = 130; }
+            else if (LineCleared < 90) { Level = 8; Speed = 110; }
+            else if (LineCleared < 110) { Level = 9; Speed = 90; }
+
+            if (Combo >= 1)
+            {
+                Score += (Combo * 50) * Level;
+                Combo = 0;
+            }
+        }
+
 
         public static void FallDown(int row)
         {
