@@ -16,6 +16,8 @@ namespace Tetris
         public static int MATRIX_COLS = 10;
         public static int curX;
         public static int curY;
+        public static bool[,] bomb = new bool[1, 1] { { true } };
+        public static int aboutToBoomCounter = 0;
 
         public static Random rnd = new Random();
         public static Stack<bool[,]> pieces = new Stack<bool[,]>();
@@ -28,6 +30,7 @@ namespace Tetris
         public static int Level = 1;
         public static int Combo = 0;
         public static int Speed = 250;
+
         public static void StartGame()
         {
             isKeyPressed = false;
@@ -46,11 +49,16 @@ namespace Tetris
                 PrintStats();
                 // picking new piece and next piece
                 bool[,] newPiece;
-                newPiece = pieces.Count == 0
-                    ? HelperFunctions.PickRandomBlock(blocks, rnd) : pieces.Pop();
+                if (aboutToBoomCounter >= 10)
+                    newPiece = bomb;
+                else
+                {
+                    newPiece = pieces.Count == 0
+                        ? HelperFunctions.PickRandomBlock(blocks, rnd) : pieces.Pop();
 
-                pieces.Push(HelperFunctions.PickRandomBlock(blocks, rnd));
-                HelperFunctions.NextBlock(pieces.Peek());
+                    pieces.Push(HelperFunctions.PickRandomBlock(blocks, rnd));
+                    HelperFunctions.NextBlock(pieces.Peek());
+                }
 
                 // setting new piece's coordinates
                 curPiece = newPiece;
@@ -71,6 +79,20 @@ namespace Tetris
                     // trying to move the piece 1 row down
                     if (!HelperFunctions.TryMove(matrix, curPiece, curX + 1, curY, "down"))
                     {
+                        if (curPiece.GetLength(0) == 1 && curPiece.GetLength(1) == 1)
+                        {
+                            for (int col = 0; col < matrix.GetLength(1); col++)
+                            {
+                                matrix[curX, col] = true;
+                            }
+                            ClearLines();
+                            SetLevelScoreAndSpeed();
+                            for (int row = 0; row < matrix.GetLength(0); row++)
+                            {
+                                matrix[row, curY] = false;
+                            }
+                        }
+
                         // check if piece can't move from the top of the frame
                         if (curX + 1 == 1)
                         {
@@ -91,6 +113,7 @@ namespace Tetris
                 }
                 ClearLines();
                 SetLevelScoreAndSpeed();
+                aboutToBoomCounter++;
             }
             HelperFunctions.AskForRestart();
         }
@@ -120,6 +143,7 @@ namespace Tetris
                     if (counter == MATRIX_COLS)
                     {
                         LineCleared++;
+                        aboutToBoomCounter = 0;
                         for (int i = 0; i < MATRIX_COLS; i++)
                         {
                             matrix[row, i] = false;
