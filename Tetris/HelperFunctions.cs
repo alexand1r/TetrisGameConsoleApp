@@ -95,7 +95,8 @@ namespace Tetris
             {
                 for (int col = 0; col < piece.GetLength(1); col++)
                 {
-                    matrixToDeleteFrom[curX + row, curY + col] = false;
+                    if (piece[row, col])
+                        matrixToDeleteFrom[curX + row, curY + col] = false;
                 }
             }
         }
@@ -134,23 +135,6 @@ namespace Tetris
 
             HelperFunctions.PrintMatrix(matrixNext, 38, 11);
         }
-
-        //public static bool[,] Rotate(bool[,] piece, bool left)
-        //{
-        //    int dim = piece.GetLength(0);
-        //    bool[,] rPiece= new bool[dim, dim];
-
-        //    for (int i = 0; i < dim; i++)
-        //        for (int j = 0; j < dim; j++)
-        //        {
-        //            if (left)
-        //                rPiece[j, i] = piece[i, dim - 1 - j];
-        //            else
-        //                rPiece[j, i] = piece[dim - 1 - i, j];
-        //        }
-
-        //    return rPiece;
-        //}
 
         public static bool TryMove(bool[,] matrix, bool[,] piece, int newX, int newY, string direction)
         {
@@ -272,7 +256,8 @@ namespace Tetris
             {
                 for (int col = 0; col < piece.GetLength(1); col++)
                 {
-                    if (!piece[row + 1, col]
+                    if (piece[row, col] &&
+                        !piece[row + 1, col]
                         && matrix[newX + row, newY + col])
                         return false;
                 }
