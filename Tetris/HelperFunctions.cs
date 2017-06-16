@@ -14,7 +14,7 @@ namespace Tetris
         {
             if (Console.KeyAvailable)
             {
-                Tetris.key = Console.ReadKey();
+                Tetris.key = Console.ReadKey(true);
                 Tetris.isKeyPressed = true;
             }
             else Tetris.isKeyPressed = false;

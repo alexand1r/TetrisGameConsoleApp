@@ -45,7 +45,7 @@ namespace Tetris
             while (true)
             {
                 if (gameOver) break;
-                //printing score/level/lines
+                // printing score/level/lines
                 PrintStats();
                 // picking new piece and next piece
                 bool[,] newPiece;
