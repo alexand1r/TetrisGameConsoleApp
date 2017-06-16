@@ -35,6 +35,12 @@ namespace Tetris
         {
             isKeyPressed = false;
             gameOver = false;
+            LineCleared = 0;
+            Score = 0;
+            Combo = 0;
+            Level = 1;
+            Speed = 250;
+            aboutToBoomCounter = 0;
 
             var blocks = Blocks.createBlocks();
             matrix = new bool[MATRIX_ROWS, MATRIX_COLS];
@@ -66,7 +72,7 @@ namespace Tetris
                 if (newPiece.Equals(bomb))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.SetCursorPosition(20, 20);
+                    Console.SetCursorPosition(38, 20);
                     Console.Write("BOMB INCOMING!");
                 }
                 
@@ -103,9 +109,8 @@ namespace Tetris
 
                         // check if piece can't move from the top of the frame
                         if (curX + 1 == 1)
-                        {
-                            
-                            Console.SetCursorPosition(1, 24);
+                        {   
+                            Console.SetCursorPosition(37, 19);
                             Console.Write("Game Over");
                             gameOver = true;
                         }
@@ -166,9 +171,8 @@ namespace Tetris
                     }
                 }
             }
-            
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(20, 20);
+                Console.SetCursorPosition(38, 20);
                 Console.Write(new string(' ', 14));
         }
 

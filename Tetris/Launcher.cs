@@ -26,6 +26,8 @@ namespace Tetris
         private const string TopRightCorner = "\u2557";
         private const string BottomLeftCorner = "\u255A";
         private const string BottomRightCorner = "\u255D";
+        private static bool HasMusic = true;
+
         public static void Main()
         {
             ConsoleSize();
@@ -44,19 +46,25 @@ namespace Tetris
         {
             SoundPlayer sp = new SoundPlayer();
             sp.SoundLocation = "../../Sounds/mainMenu.wav";
-            sp.PlayLooping();
-            string[] menuItems = new string[5]
+
+            if (HasMusic) sp.PlayLooping();
+
+            string[] menuItems = new string[6]
             {
                 "PLAY",
                 "HIGHSCORES",
+                "MUSIC ON",
                 "HELP",
                 "CREDITS",
                 "EXIT"
             };
-            int pageSize = 5;
+            int pageSize = 6;
             int pointer = 1;
             while (true)
             {
+                if (HasMusic) menuItems[2] = "MUSIC ON";
+                else menuItems[2] = "MUSIC OFF";
+
                 Console.CursorVisible = false;
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.White;
@@ -87,7 +95,7 @@ namespace Tetris
                 switch (key.Key)
                 {
                     case ConsoleKey.Enter:
-                        ShowOtherMenu(pointer,sp);
+                        ShowOtherMenu(pointer, sp);
                         break;
                     case ConsoleKey.UpArrow:
                         if (pointer > 1)
@@ -96,7 +104,7 @@ namespace Tetris
                         }
                         else if (pointer <= 1)
                         {
-                            pointer = 5;
+                            pointer = 6;
                         }
                         break;
                     case ConsoleKey.DownArrow:
@@ -129,13 +137,26 @@ namespace Tetris
             }
             else if (currentSelection == 3)
             {
-                DrawHelp();
+                if (!HasMusic)
+                {
+                    sp.PlayLooping();
+                    HasMusic = true;
+                }
+                else
+                {
+                    sp.Stop();
+                    HasMusic = false;
+                }
             }
             else if (currentSelection == 4)
             {
-                DrawCredits();
+                DrawHelp();
             }
             else if (currentSelection == 5)
+            {
+                DrawCredits();
+            }
+            else if (currentSelection == 6)
             {
                 sp.Stop();
                 Environment.Exit(0);
@@ -250,7 +271,7 @@ namespace Tetris
         {
             SoundPlayer sp = new SoundPlayer();
             sp.SoundLocation = "../../Sounds/ingameSound.wav";
-            sp.PlayLooping();
+            if (HasMusic) sp.PlayLooping();
 
             Console.CursorVisible = false;
             Console.Clear();
