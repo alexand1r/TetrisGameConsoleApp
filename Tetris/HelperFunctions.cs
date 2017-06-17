@@ -15,7 +15,7 @@ namespace Tetris
             Console.SetCursorPosition(0, 24);
             if (Console.KeyAvailable)
             {
-                Tetris.key = Console.ReadKey();
+                Tetris.key = Console.ReadKey(true);
                 Tetris.isKeyPressed = true;
             }
             else Tetris.isKeyPressed = false;
@@ -54,6 +54,19 @@ namespace Tetris
                 else if(Tetris.key.Key == ConsoleKey.DownArrow)
                 {
                     Tetris.Speed = 20;
+                }
+                // pause
+                else if (Tetris.key.Key == ConsoleKey.P)
+                {
+                    Console.SetCursorPosition(45, 23);
+                    Console.WriteLine("paused");
+                    ConsoleKeyInfo key;
+                    do
+                    {
+                        key = Console.ReadKey(true);
+                    } while (key.Key != ConsoleKey.P);
+                    Console.SetCursorPosition(45, 23);
+                    Console.WriteLine(new string(' ', 6));
                 }
             }
             Tetris.isKeyPressed = false;
