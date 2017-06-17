@@ -14,6 +14,7 @@ namespace Tetris
 { 
     public class Launcher
     {
+        public static List<KeyValuePair<string, int>> highScores = new List<KeyValuePair<string, int>>();
         private const string TetrisSign = @" 
  ______   ______    ______   ______    __    ______
 /\__  _\ /\  ___\  /\__  _\ /\  == \  /\ \  /\  ___\
@@ -202,18 +203,16 @@ namespace Tetris
             Console.Clear();
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Yellow;
-            var highscores = new Dictionary<int, string>();
-            highscores = FillHighScores();
             Console.WriteLine(TetrisSign);
             string scores = "HIGH SCORES";
             Console.SetCursorPosition(Console.WindowWidth / 2 - scores.Length / 2, 9);
             Console.Write(scores);
             int counter = 1;
             Console.CursorTop = 11;
-            foreach (var score in highscores)
+            foreach (var score in highScores.OrderByDescending(x => x.Value))
             {
                 Console.CursorLeft = 14;
-                Console.WriteLine(string.Format($"{counter}.\t{score.Key}\t{score.Value}"));
+                Console.WriteLine(string.Format($"{counter}.\t{score.Value}\t{score.Key}"));
                 counter++;
             }
             Console.SetCursorPosition(Console.WindowWidth / 2 - 15, 23);
@@ -222,19 +221,9 @@ namespace Tetris
             Console.ReadKey();
         }
 
-        private static Dictionary<int, string> FillHighScores()
+        public static void FillHighScores(int score, string name)
         {
-            var highscores = new Dictionary<int, string>();
-            highscores.Add(233412, "Pesho");
-            highscores.Add(98986, "Gosho");
-            highscores.Add(34943, "Ivan");
-            highscores.Add(9876, "Trendafil");
-            highscores.Add(8497, "Tetra");
-            highscores.Add(8376, "Annonymous");
-            highscores.Add(5445, "Nomer1");
-            highscores.Add(5356, "gosheto");
-
-            return highscores;
+            highScores.Add(new KeyValuePair<string, int>(name, score));
         }
 
         private static void DrawHelp()

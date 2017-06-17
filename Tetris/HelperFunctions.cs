@@ -324,7 +324,7 @@ namespace Tetris
 
         public static void AskForRestart()
         {
-            Console.SetCursorPosition(37, 20);
+            Console.SetCursorPosition(36, 20);
             Console.Write("Restart: Y/N ");
             string playerDecision = Console.ReadLine();
             if (playerDecision.ToLower().Equals("y"))
