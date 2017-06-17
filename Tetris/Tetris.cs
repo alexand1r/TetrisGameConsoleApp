@@ -62,6 +62,14 @@ namespace Tetris
 
                 // setting new piece's coordinates
                 curPiece = newPiece;
+                // change tetris color when bomb incoming
+                if (newPiece.Equals(bomb))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.SetCursorPosition(20, 20);
+                    Console.Write("BOMB INCOMING!");
+                }
+                
                 curX = 0;
                 curY = matrix.GetLength(1) / 2 - 1;
 
@@ -96,6 +104,7 @@ namespace Tetris
                         // check if piece can't move from the top of the frame
                         if (curX + 1 == 1)
                         {
+                            
                             Console.SetCursorPosition(1, 24);
                             Console.Write("Game Over");
                             gameOver = true;
@@ -157,6 +166,10 @@ namespace Tetris
                     }
                 }
             }
+            
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.SetCursorPosition(20, 20);
+                Console.Write(new string(' ', 14));
         }
 
         public static void SetLevelScoreAndSpeed()
