@@ -12,6 +12,7 @@ namespace Tetris
 
         public static void InputEvents()
         {
+            Console.SetCursorPosition(0, 24);
             if (Console.KeyAvailable)
             {
                 Tetris.key = Console.ReadKey(true);
@@ -53,6 +54,19 @@ namespace Tetris
                 else if(Tetris.key.Key == ConsoleKey.DownArrow)
                 {
                     Tetris.Speed = 20;
+                }
+                // pause
+                else if (Tetris.key.Key == ConsoleKey.P)
+                {
+                    Console.SetCursorPosition(45, 23);
+                    Console.WriteLine("paused");
+                    ConsoleKeyInfo key;
+                    do
+                    {
+                        key = Console.ReadKey(true);
+                    } while (key.Key != ConsoleKey.P);
+                    Console.SetCursorPosition(45, 23);
+                    Console.WriteLine(new string(' ', 6));
                 }
             }
             Tetris.isKeyPressed = false;
@@ -310,18 +324,18 @@ namespace Tetris
 
         public static void AskForRestart()
         {
-            Console.WriteLine("   Restart: Y/N");
-            var restartKey = Console.ReadKey(true);
-            switch (restartKey.Key)
+            Console.SetCursorPosition(37, 20);
+            Console.Write("Restart: Y/N ");
+            string playerDecision = Console.ReadLine();
+            if (playerDecision.ToLower().Equals("y"))
             {
-                case ConsoleKey.Y:
-                    Console.Clear();
-                    Launcher.DrawBorder();
-                    //StartGame();
-                    break;
-                case ConsoleKey.N:
-                    Launcher.MainMenu();
-                    break;
+                Console.Clear();
+                Launcher.DrawBorder();
+                Tetris.StartGame();
+            }
+            else
+            {
+                Launcher.MainMenu();
             }
         }
     }

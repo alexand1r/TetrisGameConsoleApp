@@ -17,7 +17,6 @@ namespace Tetris
         public static int curX;
         public static int curY;
         public static bool[,] bomb = new bool[1, 1] { { true } };
-        public static int aboutToBoomCounter = 0;
 
         public static Random rnd = new Random();
         public static Stack<bool[,]> pieces = new Stack<bool[,]>();
@@ -35,6 +34,11 @@ namespace Tetris
         {
             isKeyPressed = false;
             gameOver = false;
+            LineCleared = 0;
+            Score = 0;
+            Combo = 0;
+            Level = 1;
+            Speed = 250;
 
             var blocks = Blocks.createBlocks();
             matrix = new bool[MATRIX_ROWS, MATRIX_COLS];
@@ -49,24 +53,19 @@ namespace Tetris
                 PrintStats();
                 // picking new piece and next piece
                 bool[,] newPiece;
-                if (aboutToBoomCounter >= 10)
-                    newPiece = bomb;
-                else
-                {
-                    newPiece = pieces.Count == 0
-                        ? HelperFunctions.PickRandomBlock(blocks, rnd) : pieces.Pop();
+                newPiece = pieces.Count == 0
+                    ? HelperFunctions.PickRandomBlock(blocks, rnd) : pieces.Pop();
 
-                    pieces.Push(HelperFunctions.PickRandomBlock(blocks, rnd));
-                    HelperFunctions.NextBlock(pieces.Peek());
-                }
+                pieces.Push(HelperFunctions.PickRandomBlock(blocks, rnd));
+                HelperFunctions.NextBlock(pieces.Peek());
 
                 // setting new piece's coordinates
                 curPiece = newPiece;
                 // change tetris color when bomb incoming
-                if (newPiece.Equals(bomb))
+                if (newPiece.GetLength(0) == 1 && newPiece.GetLength(1) == 1)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.SetCursorPosition(20, 20);
+                    Console.SetCursorPosition(38, 20);
                     Console.Write("BOMB INCOMING!");
                 }
                 
@@ -89,23 +88,23 @@ namespace Tetris
                     {
                         if (curPiece.GetLength(0) == 1 && curPiece.GetLength(1) == 1)
                         {
-                            for (int col = 0; col < matrix.GetLength(1); col++)
+                            for (int row = curX - 1; row <= curX + 1; row++)
                             {
-                                matrix[curX, col] = true;
+                                for (int col = curY - 1; col <= curY + 1; col++)
+                                {
+                                    if (row >= 0 && row < MATRIX_ROWS && col >= 0 && col < MATRIX_COLS)
+                                    {
+                                        matrix[row, col] = false;
+                                    }
+                                }
                             }
-                            ClearLines();
                             SetLevelScoreAndSpeed();
-                            for (int row = 0; row < matrix.GetLength(0); row++)
-                            {
-                                matrix[row, curY] = false;
-                            }
                         }
 
                         // check if piece can't move from the top of the frame
                         if (curX + 1 == 1)
-                        {
-                            
-                            Console.SetCursorPosition(1, 24);
+                        {   
+                            Console.SetCursorPosition(37, 19);
                             Console.Write("Game Over");
                             gameOver = true;
                         }
@@ -122,7 +121,6 @@ namespace Tetris
                 }
                 ClearLines();
                 SetLevelScoreAndSpeed();
-                aboutToBoomCounter++;
             }
             HelperFunctions.AskForRestart();
         }
@@ -152,7 +150,7 @@ namespace Tetris
                     if (counter == MATRIX_COLS)
                     {
                         LineCleared++;
-                        aboutToBoomCounter = 0;
+                        //aboutToBoomCounter = 0;
                         for (int i = 0; i < MATRIX_COLS; i++)
                         {
                             matrix[row, i] = false;
@@ -166,9 +164,8 @@ namespace Tetris
                     }
                 }
             }
-            
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(20, 20);
+                Console.SetCursorPosition(38, 20);
                 Console.Write(new string(' ', 14));
         }
 
@@ -189,8 +186,11 @@ namespace Tetris
                 Score += (Combo * 50) * Level;
                 Combo = 0;
             }
+            else
+            {
+                Score += 20;
+            }
         }
-
 
         public static void FallDown(int row)
         {

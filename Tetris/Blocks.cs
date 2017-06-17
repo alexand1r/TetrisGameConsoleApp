@@ -53,6 +53,10 @@ namespace Tetris
                 {true, true, false},
                 {false, true, true}
             });
+            blocks.Add(new bool[,] // bomb
+            {
+                { true }
+            });
 
             return blocks;
         }
