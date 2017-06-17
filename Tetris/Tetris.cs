@@ -39,6 +39,7 @@ namespace Tetris
             Combo = 0;
             Level = 1;
             Speed = 250;
+            int piecesCounter = 0;
 
             var blocks = Blocks.createBlocks();
             matrix = new bool[MATRIX_ROWS, MATRIX_COLS];
@@ -55,6 +56,12 @@ namespace Tetris
                 bool[,] newPiece;
                 newPiece = pieces.Count == 0
                     ? HelperFunctions.PickRandomBlock(blocks, rnd) : pieces.Pop();
+                piecesCounter++;
+
+                while (piecesCounter == 1 && newPiece.GetLength(0) == 1 && newPiece.GetLength(1) == 1)
+                {
+                    newPiece = HelperFunctions.PickRandomBlock(blocks, rnd);
+                }
 
                 pieces.Push(HelperFunctions.PickRandomBlock(blocks, rnd));
                 HelperFunctions.NextBlock(pieces.Peek());
@@ -86,6 +93,7 @@ namespace Tetris
                     // trying to move the piece 1 row down
                     if (!HelperFunctions.TryMove(matrix, curPiece, curX + 1, curY, "down"))
                     {
+                        // if piece is the bomb - destroy
                         if (curPiece.GetLength(0) == 1 && curPiece.GetLength(1) == 1)
                         {
                             for (int row = curX - 1; row <= curX + 1; row++)
@@ -98,14 +106,19 @@ namespace Tetris
                                     }
                                 }
                             }
-                            SetLevelScoreAndSpeed();
+                            Score += 100;
                         }
 
                         // check if piece can't move from the top of the frame
                         if (curX + 1 == 1)
                         {   
-                            Console.SetCursorPosition(37, 19);
+                            Console.SetCursorPosition(36, 19);
                             Console.Write("Game Over");
+                            Console.SetCursorPosition(36, 21);
+                            Console.WriteLine("Type your name: ");
+                            Console.SetCursorPosition(36, 22);
+                            string name = Console.ReadLine();
+                            Launcher.FillHighScores(Score, name);
                             gameOver = true;
                         }
                         break;
