@@ -415,7 +415,7 @@ namespace Tetris
             Console.SetCursorPosition(3, 10);
             Console.WriteLine("Ready?");
             Console.CursorLeft = 3;
-            Console.Write("(Y/N)? ");
+            Console.Write("(Y/N) ");
             string playerDecision = Console.ReadLine();
 
             if (playerDecision.ToLower().Equals("y"))
