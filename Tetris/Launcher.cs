@@ -46,7 +46,7 @@ namespace Tetris
         public static void MainMenu()
         {
             SoundPlayer sp = new SoundPlayer();
-            sp.SoundLocation = "../../Sounds/mainMenu.wav";
+            sp.SoundLocation = "Sounds/mainMenu.wav";
 
             if (HasMusic) sp.PlayLooping();
 
@@ -179,11 +179,7 @@ namespace Tetris
                 "People worked on the project:",
                 "",
                 "Aleksandar Angelov",
-                "Martin Todorov",
-                "Emil Mihaylov",
-                "Vladislav Mitrov",
-                "Nikolay Bonev"
-
+                "Emil Mihaylov"
             };
             Console.CursorTop = 9;
             foreach (var item in about)
@@ -248,7 +244,7 @@ namespace Tetris
                 Console.WriteLine(control);
             }
             Console.SetCursorPosition(0, 14);
-            string instructions = "Tetris is played on a 24 by 22 grid called the Matrix. Shapes called Blocks fall from the top of the Matrix and come to rest at the bottom.Only one Block falls at a time.At first the Tetriminos fall rather slowly; as the game progresses they will fall faster and faster.The primary way to score points in Tetris is to clear lines by manipulating the pieces so that they fill horizontal row within the Matrix.";
+            string instructions = "Tetris is played on a 10 by 22 grid called the Matrix. Shapes called Blocks fall from the top of the Matrix and come to rest at the bottom.Only one Block falls at a time.At first the Tetriminos fall rather slowly; as the game progresses they will fall faster and faster.The primary way to score points in Tetris is to clear lines by manipulating the pieces so that they fill horizontal row within the Matrix.";
             Console.WriteLine(instructions);
             Console.SetCursorPosition(Console.WindowWidth / 2 - 15, 23);
 
@@ -259,7 +255,7 @@ namespace Tetris
         public static void DrawBorder()
         {
             SoundPlayer sp = new SoundPlayer();
-            sp.SoundLocation = "../../Sounds/ingameSound.wav";
+            sp.SoundLocation = "Sounds/ingameSound.wav";
             if (HasMusic) sp.PlayLooping();
 
             Console.CursorVisible = false;
